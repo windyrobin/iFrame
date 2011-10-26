@@ -66,7 +66,7 @@ and you could write code like that :
 
 ####Multi-process logging system
 
-  It supports MAX log size and it will rotate the log file automatically.
+  It supports MAX log file size and it will rotate the log file automatically.
   only the master opereates the log file directly ,the worker process just sends log content to
   master via `process.send()`
   
