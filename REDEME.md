@@ -56,7 +56,7 @@ and you could write code like that :
   
 ####Router & Dispatcher
 
-  the Router is very simple ,now only `/:controller/:action` mode support ,you
+  the Router is very simple ,now only `/:controller/:action` mode supported ,you
   could rewrite it freely depend on your own
   
 ####Static File server
