@@ -1,8 +1,97 @@
 ###General JS
 
+* 遍历效率比较
+    - forEach 很慢
+    - for(var in in obj) 较慢
+    - for(var i = 0; i < len; i++) 最快
+    - Array 的遍历比 Object 要快的多
+    
+* 避免重复计算
+    
+    ```
+    for(var i = 0; i< arr.length; i++){
+      ...    
+    }
+    ```
+    在arr 长度较大时，应该引入临时量
+
+    ```
+    var len = arr.length;
+    for(var i = 0; i < len; i++){
+      ...
+    }
+    ```
+    
+* 使用临时变量，避免对象的多次查找
+    
+    Wrong:
+    
+    ```
+    var a = {
+        b : {
+            c : 'd'
+        }
+    }
+    for(;;){
+        a.b.c = ...
+    }
+    ```
+    
+    Right:
+
+    ```
+    var o = a.b.c;
+    for(;;){
+        o = ...
+    }
+    ```
+    
+  
+  
+  
 ###V8 JS
 
-###Node 
+* 使用 V8 支持的功能列表 [V8-ECMA](https://github.com/joyent/node/wiki/ECMA-5-Mozilla-Features-Implemented-in-V8)
+    如 : 
+    - ```Array.isArray```
+    - ```Array.indexOf```
+    - ```Object.keys```
+    - ```String.trim/leftTrim/rightTrim```
+    - ...
+
+* 理解V8 对 Object 属性查找机制的改进，在构造函数中预先初始化所有属性
+
+* Try/Catch  位置
+    对较为复杂的函数运算，你应该在调用它时try/catch ,这样效率更高 [V8_Catch](https://github.com/joyent/node/wiki/Best-practices-and-gotchas-with-v8)
+    
+    Wrong :
+    
+    ```
+        function tfn(){
+            try{
+              @#dsC23
+              @##sd
+              @#$d
+            }catch(e){
+            }
+        }
+    ```
+
+    Right:
+    
+    ```
+        try{
+            tfn();
+        }catch(e){
+            
+        }
+    ```
+    
+* 使用 WebGL 类型扩展: Int8Array ,Int16Array ,Float32Array...
+
+    这些类型的数值运算、二进制运算非常快 （参见Node 自带的```benchamrk/array```）;
+  
+###Node JS
 
 * Event 
 
@@ -13,7 +102,11 @@
     露）,当程序调用 ```obj.emit("eid" , data)```  ,不要被假象所迷惑，这会立即调用设置的回调  
     函数，它根本不是异步的
     
-
+* Timer
+    
+    - 尽量用 process.nextTick 来替代 setTimeout(fun, 0);
+    - 可以的话，尽量setTimeout(fun, number) 设置相同的超时值
+    
 * Buffer 
 
     避免不必要的拷贝以及与 ```string ``` 的相互转换  
@@ -56,6 +149,16 @@
           ...
     ```
     
+    
+* File System
+    - 在读取文件时，可以的话，尽量传入适当的bufsize
+    - 不要持久引用 stream("on", data) 上浮的 Buffer
+    
+
+* Net/Http Request
+
+    你应当给 request 加上超时控制
+
 * Http Agent 
 
     从 Node V0.5.3 开始，Node 提供了这种方式来支持 keep-alive/连接池
@@ -97,5 +200,7 @@
       looptest();
     ```
     
-    
+* Http Response
+    - 不要多次调用 res.write ,这会极大的影响性能，最好仅调用一次res.end(buf/string) 方法
+    - 尽量在res.writeHead 时设置 content-lengt
     
