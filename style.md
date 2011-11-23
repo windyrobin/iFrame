@@ -168,7 +168,7 @@
     function cb(err, data , ...){...}
     ```
     
-* 类继承写法，尽管有各种方式来实现继承，但最为推荐的是node 的标准写法
+* 类继承写法，尽管有各种方式来实现继承，但最为推荐的是Node 的标准写法
   
     ```
     function Socket(options) {
