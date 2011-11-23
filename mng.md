@@ -12,7 +12,7 @@
 
 * 对于复杂的逻辑运算，不仅要有unittest，还要有相应的benchmark test
 
-* 对于外部的网络请求，一定也要有相应的benchmark tsst ，摸清其 qps，response time ，cpu 耗费
+* 对于外部的网络请求，一定也要有相应的benchmark test ，摸清其 qps，response time ，cpu 耗费
 
 * 选择使用 http keep-alive 
 
