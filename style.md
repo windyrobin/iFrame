@@ -153,7 +153,7 @@
 * for-in 循环，仅在 object/hash/map 时使用，绝不要对Array 使用
 
 * 不要把Array 当做关联数组或Object 使用,即你不应该用非数字作为Array 的索引
-
+        (Phper 尤其注意这点)  
     Wrong :
   
     ```
