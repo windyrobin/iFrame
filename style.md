@@ -1,4 +1,4 @@
-# Javascript 编码规范
+# Node 编码规范
 
 * 缩进 ，2 个 space，tab要转换成2 space. [Eclipse的Javascript tab和缩进自动转换设置方法](http://ww3.sinaimg.cn/large/6cfc7910jw1dnf44jzellj.jpg)
 
