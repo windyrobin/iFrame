@@ -1,10 +1,8 @@
-* 缩进 ，2 个 space
+# Javascript 编码规范
 
-
-
+* 缩进 ，2 个 space，tab要转换成2 space. [Eclipse的Javascript tab和缩进自动转换设置方法](http://ww3.sinaimg.cn/large/6cfc7910jw1dnf44jzellj.jpg)
 
 * 永远用 var 声明变量，不加var时，会污染顶层上下文
-
 
 * 操作符与操作算子之间要有空格
 
@@ -58,15 +56,19 @@
 
 * Camel 命名法
 
-    采用以下规则：functionNamesLikeThis, variableNamesLikeThis, ClassNamesLikeThis, EnumNamesLikeThis, methodNamesLikeThis, and SYMBOLIC_CONSTANTS_LIKE_THIS
+    采用以下规则：
+    * 函数和变量：functionNamesLikeThis, variableNamesLikeThis, 
+    * 类名和枚举类型：ClassNamesLikeThis, EnumNamesLikeThis, 
+    * 类方法：methodNamesLikeThis 
+    * 常量：SYMBOLIC_CONSTANTS_LIKE_THIS
 
     Right ：
   
     ```
-    //var definition
+    // var definition
     var adminUser = db.query('SELECT * FROM users ...');
 
-    //function definition
+    // function definition
     function run(){
     }
 
@@ -146,6 +148,7 @@
     var b = {"good": 'code'
       , is generally: 'pretty'
     };
+    ```
 
 
 * 避免使用 “with” 与 “eval”
@@ -157,7 +160,7 @@
     Wrong :
   
     ```
-    var a = [];//use '{}' instead
+    var a = []; // use '{}' instead
     a['hello'] = 'shit';
     a['foo'] = 'bar';
     ```
@@ -165,7 +168,7 @@
 * Node 的异步回调函数的第一个参数应该是错误指示
 
     ```
-    function cb(err, data , ...){...}
+    function cb(err, data , ...) {...}
     ```
     
 * 类继承写法，尽管有各种方式来实现继承，但最为推荐的是Node 的标准写法
@@ -179,4 +182,25 @@
   
     util.inherits(Socket, stream.Stream);
     ```
+
+* 引用模块时，应该按行分别引用每一个模块，不应该都写在一行，或者使用逗号连续引用。
+
+    Right：
+    
+    ```
+    var assert = require('assert');
+    var fork = require('child_process').fork;
+    var net = require('net');
+    var EventEmitter = require('events').EventEmitter;
+    ```
+    
+    Wrong：(node源代码已经将此方式全部修正)
+    
+    ```
+    var assert = require('assert')
+      , fork = require('child_process').fork
+      , net = require('net')
+      , EventEmitter = require('events').EventEmitter;
+    ```
+
 * 多参考、模仿 Node 源码的编程风格 ^_^
