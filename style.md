@@ -179,3 +179,4 @@
   
     util.inherits(Socket, stream.Stream);
     ```
+* 多参考、模仿 Node 源码的编程风格 ^_^
