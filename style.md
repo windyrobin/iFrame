@@ -2,7 +2,7 @@
 
 * 缩进 ，2 个 space，tab要转换成2 space. [Eclipse的Javascript tab和缩进自动转换设置方法](http://ww3.sinaimg.cn/large/6cfc7910jw1dnf44jzellj.jpg)
 
-* 永远用 var 声明变量，不加var时，会污染顶层上下文
+* 永远用 var 声明变量，不加 var 时，会污染顶层上下文
 
 * 操作符与操作算子之间要有空格
 
@@ -194,7 +194,7 @@
     var EventEmitter = require('events').EventEmitter;
     ```
     
-    Wrong：(node源代码已经将此方式全部修正)
+    Wrong：( Node 源代码已经将此方式全部修正)
     
     ```
     var assert = require('assert')
