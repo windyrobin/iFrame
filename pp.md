@@ -28,12 +28,12 @@
     
     ```
     var a = {
-        b : {
-            c : 'd'
-        }
+      b : {
+        c : 'd'
+      }
     }
     for(;;){
-        a.b.c = ...
+      a.b.c = ...
     }
     ```
     
@@ -42,7 +42,7 @@
     ```
     var o = a.b.c;
     for(;;){
-        o = ...
+      o = ...
     }
     ```
     
@@ -68,12 +68,12 @@
     
     ```
         function tfn(){
-            try{
-              @#dsC23
-              @##sd
-              @#$d
-            }catch(e){
-            }
+          try{
+            @#dsC23
+            @##sd
+            @#$d
+          }catch(e){
+          }
         }
     ```
 
@@ -81,9 +81,9 @@
     
     ```
         try{
-            tfn();
+          tfn();
         }catch(e){
-            
+          
         }
     ```
     
@@ -131,22 +131,22 @@
     
     ```
     readStream.on('end', function() {
-         // copy all the buffers into one
-         var buffer;
-         switch (buffers.length) {
-           case 0: buffer = new Buffer(0); break;
-           case 1: buffer = buffers[0]; break;
-           default: // concat together
-             buffer = new Buffer(nread);
-             var n = 0;
-           buffers.forEach(function(b) {
-              var l = b.length;
+      // copy all the buffers into one
+      var buffer;
+      switch (buffers.length) {
+        case 0: buffer = new Buffer(0); break;
+        case 1: buffer = buffers[0]; break;
+        default: // concat together
+          buffer = new Buffer(nread);
+          var n = 0;
+          buffers.forEach(function(b) {
+            var l = b.length;
               b.copy(buffer, n, 0, l);
               n += l;
-            });
-            break;
-          }
-          ...
+          });
+          break;
+        }
+        ...
     ```
     
     
@@ -182,19 +182,19 @@
         headers : {"Connection" : "keep-alive"}
       };
       function looptest(){
-       var req = http.request(options, function(res){
+        var req = http.request(options, function(res){
           res.on("end", function(){
-              console.log("count : " + count);
-              if(--count <= 0){ 
+            console.log("count : " + count);
+            if(--count <= 0){ 
       
-               }else{
-                  process.nextTick(function(){
-                  looptest();
-                }); 
-              }   
+            }else{
+              process.nextTick(function(){
+                looptest();
+              }); 
+            }   
           }); 
-      }); 
-       req.end();
+        }); 
+        req.end();
       }
       
       looptest();
