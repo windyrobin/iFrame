@@ -7,12 +7,13 @@
 
 * 减少外部依赖，谨慎选择开源模块
 
-* 面向接口编程，不管内部实现如何，接口定义要简洁、清晰、稳定，参数、
+* 面向接口编程，不管内部实现如何，接口定义要简洁、清晰、固定，参数、  
     返回值的详细说明，是否会抛出异常，有何陷阱与缺陷
 
 * 对于复杂的逻辑运算，不仅要有unittest，还要有相应的benchmark test
 
-* 对于外部的网络请求，一定也要有相应的benchmark test ，摸清其 qps，response time ，cpu 耗费
+* 对于外部的网络请求，一定也要有相应的benchmark test ，摸清其 qps，response time ，  
+     cpu 耗费
 
 * 选择使用 http keep-alive 
 
