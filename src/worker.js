@@ -1,20 +1,20 @@
-require("./lib/env");
-var dispatch = require("./lib/dispatch").fn;
+require('./lib/env');
+var dispatch = require('./lib/dispatch').fn;
 
-const GRACE_EXIT_TIME = 1500;
+var GRACE_EXIT_TIME = 1500;
 
 var server = null;
-var exit_timer = null;
-var child_req_count = 0;
+var exitTimer = null;
+var childReqCount = 0;
 
-function about_exit(){
-  if(exit_timer) return;
+function aboutExit(){
+  if(exitTimer) return;
 
   server.close();
-  exit_timer = setTimeout(function(){
-    output("worker will exit...");
-    output("child req total : " + child_req_count);
-    log.info("child req total : " + child_req_count);
+  exitTimer = setTimeout(function(){
+    output('worker will exit...');
+    output('child req total : ' + childReqCount);
+    log.info('child req total : ' + childReqCount);
 
     //log.destroy should the lste action
     log.destroy();
@@ -24,37 +24,38 @@ function about_exit(){
 
 
 void main(function(){
-  process.on("SIGINT"  ,about_exit)
-  process.on("SIGTERM" ,about_exit)
+  process.on('SIGINT'  ,aboutExit)
+  process.on('SIGTERM' ,aboutExit)
 
   //worker log mode
-  global.log = require("./lib/log");
-  log.init("WORKER");
+  global.log = require('./lib/log');
+  log.init('WORKER');
 
   server = http.createServer(function(req, res){
     dispatch(req, res);
     /*
-    res.writeHead(200 ,{"content-type" : "text/html"});
-    res.end("hello,world");
+    res.writeHead(200 ,{'content-type' : "text/html"});
+    res.end('hello,world');
     */
-    child_req_count++;
+    childReqCount++;
   });
 
-  process.on("message",function(m ,handle){
+  process.on('message',function(m ,handle){
     if(handle){
       server.listen(handle, function(err){
         if(err){
-          output("worker listen error");
+          output('worker listen error');
         }else{
-          process.send({"listenOK" : true});
-          output("worker listen ok");
+          process.send({'listenOK' : true});
+          output('worker listen ok');
         }  
       });     
     }
-    if(m.status == "update"){
-      process.send({"status" : process.memoryUsage()});
+    if(m.status == 'update'){
+      util.inspect(process.memoryUsage());
+      process.send({'status' : process.memoryUsage()});
     }
   });
 
-  output("worker is running...");
+  output('worker is running...');
 });

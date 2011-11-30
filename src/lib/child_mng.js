@@ -1,11 +1,11 @@
-require("./env");
+require('./env');
 
 var childs = [];
 var childStatus = [];
 
 exports.push =  function(c){
   childs.push(c);
-  c.on("message", msg_ctrl_factory(childs.length - 1));
+  c.on('message', msgCtrlFactory(childs.length - 1));
 }
 
 exports.getStatus = function(){
@@ -26,7 +26,7 @@ exports.kill = function(pos){
 
 exports.updateStatus = function(){
   childs.forEach(function(c){
-    c.send({status : "update"});
+    c.send({status : 'update'});
   })
 }
 
@@ -39,16 +39,16 @@ function simple_hash(str){
 }
 
 //distinct which child sent the message ,closure the position
-function msg_ctrl_factory(pos){
+function msgCtrlFactory(pos){
   return function(m){
-    //debug("get child log info :");
+    //debug('get child log info :');
     //debug(m);
     //if the message if log info,just write to log file
     if(m.log){
       log.write(m.log);
     }
     if(m.status){
-      log.info("get child status");
+      log.info('get child status');
       childStatus[pos] = m.status;
     }
   }

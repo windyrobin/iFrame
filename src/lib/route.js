@@ -1,4 +1,4 @@
-require("./env");
+require('./env');
 
 exports.fn = route;
 
@@ -8,21 +8,21 @@ exports.fn = route;
 */
 function route(url){
   var meta = {
-    ctrl       : "index",
-    action    : "index",
+    ctrl       : 'index',
+    action     : 'index',
     query      : null,
-    path       : ""
+    path       : ''
   };
 
-  var purl = require("url").parse(url, true);
-  var arr = purl.pathname.split("/");
-  //the pathname always startd with "/" ,for example "/index/helo"  
-  //so arr[0] is always ""
+  var purl = require('url').parse(url, true);
+  var arr = purl.pathname.split('/');
+  //the pathname always startd with '/' ,for example '/index/helo'  
+  //so arr[0] is always ''
   //console.log(util.inspect(arr));
 
-  if(arr[1] && arr[1] != "")
+  if(arr[1] && arr[1] != '')
     meta.ctrl = arr[1];
-  if(arr[2] && arr[2] != "")
+  if(arr[2] && arr[2] != '')
     meta.action = arr[2];
 
   //parsed usr object ,avoid parsing it again
@@ -35,7 +35,7 @@ function route(url){
 function debug(obj){
   console.log(util.inspect(obj));
 }
-debug(route("/hello?id=3"));
-debug(route("/"));
-debug(route("/hello/world?id=3"));
+debug(route('/hello?id=3'));
+debug(route('/'));
+debug(route('/hello/world?id=3'));
 */

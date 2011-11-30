@@ -1,40 +1,39 @@
-require("../lib/env");
+require('../lib/env');
  
-function cal(){
-}
+function Cal(){}
 
-exports.ctor = cal;
+exports.ctor = Cal;
 
-App.declare(cal);
+App.declare(Cal);
 
-cal.actions = {
+Cal.actions = {
   index : true,
   add   : true,
   sub   : true
 };
 
-cal.prototype.index = function(req, res){
+Cal.prototype.index = function(req, res){
   this.add(req, res);
 }
 
-cal.prototype.add = function(req, res){
-  //debug("add method");
+Cal.prototype.add = function(req, res){
+  //debug('add method');
   var self = this;
   var params = self.query;
-  var lnum = parseInt(params["lnum"]);
-  var rnum = parseInt(params["rnum"]);
+  var lnum = parseInt(params['lnum']);
+  var rnum = parseInt(params['rnum']);
   var result = lnum + rnum
-  res.writeHead(200, {"Content-Type": "text/html"});
-  res.end("" + result);
+  res.writeHead(200, {'Content-Type': 'text/html'});
+  res.end('' + result);
 }
 
-cal.prototype.sub = function(req, res){
+Cal.prototype.sub = function(req, res){
   var self = this;
   var params = self.query;
-  var lnum = parseInt(params["lnum"]);
-  var rnum = parseInt(params["rnum"]);
-  var result = lnum - rnum
-  res.writeHead(200, {"Content-Type": "text/html"});
-  res.end("" + result);
+  var lnum = parseInt(params['lnum']);
+  var rnum = parseInt(params['rnum']);
+  var result = lnum - rnum;
+  res.writeHead(200, {'Content-Type': 'text/html'});
+  res.end('' + result);
 
 }

@@ -1,15 +1,15 @@
-global.os = require("os");
-global.fs = require("fs");
-global.net = require("net");
-global.http = require("http");
-global.util = require("util");
-global.App = require("./app_ctrl");
+global.os = require('os');
+global.fs = require('fs');
+global.net = require('net');
+global.http = require('http');
+global.util = require('util');
+global.App = require('./app_ctrl');
 
-global.mode = "DEBUG";
-//global.mode = "DEBUG";
+global.mode = 'DEBUG';
+//global.mode = 'DEBUG';
 
 global.debug = function(str){
-  if(mode == "DEBUG")
+  if(mode == 'DEBUG')
     console.log(str);
 }
 
@@ -18,7 +18,7 @@ global.output = function(str){
 }
 
 global.inspect = function(obj){
-  if(mode == "DEBUG")
+  if(mode == 'DEBUG')
     debug(util.inspect(obj));
 }
 
@@ -65,33 +65,31 @@ substitute the combination of :
 ** #1 send_error
 ** #2 return
 */
-global.reply_error = function(req, res, code ,info){
+global.replyError = function(req, res, code ,info){
   var  map = {
-    404 : "Not Found",
-    400 : "Bad Request",
-    500 : "Internal Server Error"
+    404 : 'Not Found',
+    400 : 'Bad Request',
+    500 : 'Internal Server Error'
   }
-  var err_str = map[code] || "error occurred";
+  var err_str = map[code] || 'error occurred';
   var body = info || err_str; 
-  res.writeHead(code , {"Content-Type" : "text/plain"});
+  res.writeHead(code , {'Content-Type' : 'text/plain'});
   res.end(body.toString());
-  //throw (new NullExcp());
 }
 
 //we throw this type of exception to
 //stop the process
 global.SExcp = function(err){
- this.err = err; 
+  this.err = err; 
 }
 
 //empty exception,just for jump out of process
 //maybe throwed by controllers
 global.NullExcp = function(){
-  this.type = "null";
+  this.type = 'null';
 }
 
 //default we send http 500 error
-/*
 process.on('uncaughtException', function(obj) {
   if(obj instanceof NullExcp){
     //log.error(obj.info);
@@ -103,7 +101,7 @@ process.on('uncaughtException', function(obj) {
   }
   delete obj;
 });
-*/
+
 //test the file's accessibility
 global.access = function(filepath){
   var ok = true;
@@ -118,13 +116,13 @@ global.access = function(filepath){
 //would be reset when require log.js
 global.log =  { 
   error : function(str){
-    console.log("[Error]\t" + str + "\t"+ new Date());
+    console.log('[Error]\t' + str + '\t'+ new Date());
   },
   warning : function(str){  
-    console.log("[Warning]\t" + str + "\t" + new Date());
+    console.log('[Warning]\t' + str + '\t' + new Date());
   },
   info : function(str){
-    console.log("[Info]\t" + str + "\t"  + new Date());
+    console.log('[Info]\t' + str + '\t'  + new Date());
   }
 };
 
