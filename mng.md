@@ -1,9 +1,9 @@
 * 转变思想
 
-    抛弃传统的 Php/RoR/Django/Asp.net 的随意的写法，NodeJs 中间层/高性能开发  
+    抛弃传统的 Php/RoR/Django/Asp.net 的随意的写法，Node 中间层/高性能开发  
     是个特殊的领域，需要足够的严谨与细致
 
-* NodeJs 中间层/高性能开发 = JavaScript + 系统编程 + 高性能服务器编程 
+* Node 中间层/高性能开发 = JavaScript + 系统编程 + 高性能服务器编程 
 
 * 减少外部依赖，谨慎选择开源模块
 
