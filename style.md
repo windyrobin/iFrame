@@ -1,6 +1,7 @@
 # Node 编码规范
 
-* 缩进 ，2 个 space，tab要转换成2 space. [Eclipse的Javascript tab和缩进自动转换设置方法](http://ww3.sinaimg.cn/large/6cfc7910jw1dnf44jzellj.jpg)
+* 缩进 ，2 个 space，tab要转换成2 space. (入乡随俗，这是Node 源码及module 采用的标准)   
+    [Eclipse设置](http://ww3.sinaimg.cn/large/6cfc7910jw1dnf44jzellj.jpg)
 
 * 永远用 var 声明变量，不加 var 时，会污染顶层上下文
 
@@ -25,12 +26,16 @@
 
     ```
     var foo = 'bar';
+    
+    var http = require('http');
     ```
     
     Wrong：
     
     ```
     var foo = "bar";
+    
+    var http = require("http");
     ```
     
 
@@ -182,6 +187,8 @@
   
     util.inherits(Socket, stream.Stream);
     ```
+
+* 对类的私有成员变量，建议加上 "_"  前缀以示区分
 
 * 引用模块时，应该按行分别引用每一个模块，不应该都写在一行，或者使用逗号连续引用。
 
