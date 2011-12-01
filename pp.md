@@ -65,7 +65,7 @@
     - ```Array.isArray```
     - ```Array.indexOf```
     - ```Object.keys```
-    - ```String.trim/leftTrim/rightTrim```
+    - ```String.trim/trimLeft/trimRight```
     - ...
 
 * 理解V8 对 ```Object``` 属性查找机制的改进，在构造函数中预先初始化所有属性
