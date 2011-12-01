@@ -1,4 +1,6 @@
-### General JS
+# Node 陷阱与优化
+
+## General JS
 
 * 遍历效率比较
 
@@ -58,7 +60,7 @@
     }
     ```
   
-### V8 JS
+## V8 JS
 
 * 使用 V8 支持的功能列表 [V8-ECMA](https://github.com/joyent/node/wiki/ECMA-5-Mozilla-Features-Implemented-in-V8)
     如 : 
@@ -101,7 +103,7 @@
 
     这些类型的数值运算、二进制运算非常快 （参见Node 自带的```benchamrk/array```）;
   
-### Node JS
+## Node JS
 
 * Event 
 
