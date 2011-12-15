@@ -12,6 +12,8 @@
 
 * 对于复杂的逻辑运算，不仅要有unittest，还要有相应的benchmark test
 
+* 启用 Node 的 profile ，有时能够有助于你对算法瓶颈的查找、优化
+
 * 对于外部的网络请求，一定也要有相应的benchmark test ，摸清其 qps，response time ，  
      cpu 耗费
 
