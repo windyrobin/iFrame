@@ -107,20 +107,20 @@
     
 * 使用 WebGL 类型扩展: ```Int8Array```, ```Int16Array```, ```Float32Array``` ...
 
-  这些类型的数值运算、二进制运算非常快 （参见Node 自带的```benchamrk/array```）;
+    这些类型的数值运算、二进制运算非常快 （参见Node 自带的```benchamrk/array```）;
   
 ## Node JS
 
 * Event 
 
-  Node 有两种Event: hard/soft,  hard event 是指文件、网络可读写这些物理上的event, 
-  其他的用户设置的事件都是 soft event。
+    Node 有两种Event: hard/soft,  hard event 是指文件、网络可读写这些物理上的event, 
+    其他的用户设置的事件都是 soft event。
 
-  当你通过 ```obj.on('eid', function(){})``` 来添加事件时，
-  此 obj 内部会维护一个对应此 ```'eid'``` 的事件队列，所以，当你多次调用此函数时，会把相同的处理函数设置多次。
-  （Node 为了避免这种情况，设置了一个上限提示出错，用来避免内存泄露）
+    当你通过 ```obj.on('eid', function(){})``` 来添加事件时，
+    此 obj 内部会维护一个对应此 ```'eid'``` 的事件队列，所以，当你多次调用此函数时，会把相同的处理函数设置多次。
+    （Node 为了避免这种情况，设置了一个上限提示出错，用来避免内存泄露）
 
-  当程序调用 ```obj.emit('eid', data)``` ，不要被假象所迷惑，这会立即调用设置的回调函数，它根本不是异步的。
+    当程序调用 ```obj.emit('eid', data)``` ，不要被假象所迷惑，这会立即调用设置的回调函数，它根本不是异步的。
     
 * Timer
     
@@ -188,46 +188,73 @@
     
 * File System
 
-  * 在读取文件时，可以的话，尽量传入适当的```bufferSize```
-  * 谨慎使用**同步**操作函数组 - 除非你清楚知道这样带来的后果
+    * 在读取文件时，可以的话，尽量传入适当的```bufferSize```
+    * 谨慎使用**同步**操作函数组 - 除非你清楚知道这样带来的后果
     
 * Stream
 
-  * ```Stream```类的抽象是 Node 的亮点之一，也是一个非常重要的基础类，你应该深刻的了解它
-  * 不要持久引用 ```stream('on', data)``` 上浮的 ```Buffer```
+    * ```Stream```类的抽象是 Node 的亮点之一，也是一个非常重要的基础类，你应该深刻的了解它
+    * 不要持久引用 ```stream('on', data)``` 上浮的 ```Buffer```
     
 * Net/Http Request
 
-  你应当给 ```request``` 加上超时控制
+    你应当给 ```socket/request``` 加上超时控制
 
 * Http Agent 
 
-  从 Node V0.5.3 开始，Node 提供了这种方式来支持 keep-alive/连接池
-  但注意它的文档说明
+    从 ```Node V0.5.3``` 开始，Node 提供了这种方式来支持 ```keep-alive``` 连接池
+    但需要注意它的文档说明
+
+    ```node/lib/http.js```
+
+    ```
+    } else if (self.agent) {
+      // If there is an agent we should default to Connection:keep-alive.
+      self._last = false;
+      self.shouldKeepAlive = true;
+      self.agent.addRequest(self, options.host, options.port);
+    } else {
+      // No agent, default to Connection:close.
+      self._last = true;
+      self.shouldKeepAlive = false;
+    ```
     
->If no pending HTTP requests are waiting on a socket to become free the socket is closed. 
+    >If no pending HTTP requests are waiting on a socket to become free the socket is closed. 
     
-    即它没有我们传统意义上的keep-avlie time的设置，比如当你在一个请求返回之后再申请下一个，   
+    即它没有我们传统意义上的keep-alive time的设置，比如当你在一个请求返回之后再请求下一个，   
     这时这个连接池是没有启用的.
     
-    ```  
+    Server
+
+    ```
+    var http = require('http');
+    http.createServer(function(req, res) {
+      // remotePort change, keep-alive not success.
+      console.log('%d port', req.socket.remotePort);
+      res.end('hello');
+    }).listen(3458);
+    ```
+
+    Client
+
+    ```
+    var http = require('http');
+
     var count = 10;
-    var agent = new http.Agent({ "maxSockets": 3 });
+    var agent = new http.Agent({ maxSockets: 3 });
     var options = {
       host: 'localhost',
       port: 3458,
       path: '/',
       method: 'GET',
       agent: agent,
-      headers: { "Connection" : "keep-alive" }
+      headers: { Connection: 'keep-alive' }
     };
     function looptest() {
       var req = http.request(options, function(res) {
-        res.on("end", function() {
-          console.log("count : " + count);
-          if(--count <= 0) { 
-    
-          } else {
+        res.on('end', function() {
+          console.log('count : %d', count);
+          if (--count > 0) {
             process.nextTick(function() {
               looptest();
             }); 
@@ -242,6 +269,6 @@
     
 * Http Response
 
-  * 不要多次调用 ```res.write``` ,这会极大的影响性能，最好仅调用一次```res.end(buf/string)``` 方法
-  * 尽量在 ```res.writeHead``` 时设置 ```Content-Length```
+    * 不要多次调用 ```res.write```，这会极大的影响性能，最好仅调用一次 ```res.end(buf/string)``` 方法
+    * 尽量在 ```res.writeHead``` 时设置 ```Content-Length```
     
