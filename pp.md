@@ -47,7 +47,10 @@
       }
     };
     for(;;) {
-      a.b.c = ...
+      if (a.b.c) {
+        // ...
+      }
+      // ...
     }
     ```
     
@@ -56,7 +59,10 @@
     ```
     var o = a.b.c;
     for(;;) {
-      o = ...
+      if (o) {
+        // ...
+      }
+      // ...
     }
     ```
   
@@ -75,7 +81,7 @@
 * Try/Catch  位置
     对较为复杂的函数运算，你应该在调用它时```try/catch``` ,这样效率更高 [V8_Catch](https://github.com/joyent/node/wiki/Best-practices-and-gotchas-with-v8)
     
-    Wrong :
+    Wrong:
     
     ```
     function tfn() {
@@ -107,31 +113,47 @@
 
 * Event 
 
-    Node 有两种Event: hard/soft,  hard event 是指文件、网络可读写这些物理上的event, 其他的用  
-    户设置的事件都是 soft event ，    当你通过   ```obj.on("eid" , function(){})```  来添加事件时，  
-    此 obj 内部会维护一个对应此 “eid” 的事件队列，所以，当你多次调用此函数时，会把相同的  
-    处理函数设置多次。（Node 为了避免这种情况，设置了一个上限提示出错，用来避免内存泄  
-    露）,当程序调用 ```obj.emit("eid" , data)```  ,不要被假象所迷惑，这会立即调用设置的回调  
-    函数，它根本不是异步的
+Node 有两种Event: hard/soft,  hard event 是指文件、网络可读写这些物理上的event, 
+其他的用户设置的事件都是 soft event。
+
+当你通过 ```obj.on('eid', function(){})``` 来添加事件时，
+此 obj 内部会维护一个对应此 ```'eid'``` 的事件队列，所以，当你多次调用此函数时，会把相同的处理函数设置多次。
+（Node 为了避免这种情况，设置了一个上限提示出错，用来避免内存泄露）
+
+当程序调用 ```obj.emit('eid', data)``` ，不要被假象所迷惑，这会立即调用设置的回调函数，它根本不是异步的。
     
 * Timer
     
-    - 尽量用 ```process.nextTick``` 来替代 ```setTimeout(fun, 0)```;
-    - 可以的话，尽量```setTimeout(fun, number)``` 设置相同的超时值
+  * 使用 ```process.nextTick``` 替代 ```setTimeout(fun, 0)```
+  * 可以的话，尽量 ```setTimeout(fun, timeout)``` 设置相同的超时值，timeout 值相同，node 会使用同一个定时器处理
+
+    ```
+    // come from `node/lib/timers.js`
+
+    // IDLE TIMEOUTS
+    //
+    // Because often many sockets will have the same idle timeout we will not
+    // use one timeout watcher per item. It is too much overhead.  Instead
+    // we'll use a single watcher for all sockets with the same timeout value
+    // and a linked list. This technique is described in the libev manual:
+    // http://pod.tst.eu/http://cvs.schmorp.de/libev/ev.pod#Be_smart_about_timeouts
+    ```
     
 * Buffer 
 
-    避免不必要的拷贝以及与 ```string ``` 的相互转换  
-    比如你可能这样写:
+避免不必要的拷贝以及与 ```string``` 的相互转换  
+比如你可能这样写:
     
+    Wrong:
+
     ```
     var chunks = [], nread = 0;
-    stream.on("data", function(chunk) {
+    stream.on('data', function(chunk) {
       chunks.push(chunk);
       nread += chunk.length;
     });
 
-    stream.on("end", function() {
+    stream.on('end', function() {
       var buf = new Buffer(nread);
       for(var i = 0, l = chunks.length; i < l; i++) {
         chunks[i].copy(buf, ....);
@@ -139,9 +161,11 @@
     });
     ```
     
-    但其实很多时候，仅仅只有一个chunk ，完全可以避免多余的copy操作，  
-    我们可以参看 Node 的源码实现：
+但其实**很多时候**，仅仅**只有一个chunk**，完全可以避免多余的copy操作，  
+我们可以参看 Node 的源码实现：
     
+    Right:
+
     ```
     readStream.on('end', function() {
       // copy all the buffers into one
@@ -164,24 +188,24 @@
     
 * File System
 
-    - 在读取文件时，可以的话，尽量传入适当的bufsize
-    - 谨慎使用同步操作函数组---除非你清楚知道这样带来的后果
+  * 在读取文件时，可以的话，尽量传入适当的```bufferSize```
+  * 谨慎使用**同步**操作函数组 - 除非你清楚知道这样带来的后果
     
 * Stream
 
-    - Stream 类的抽象是 Node 的亮点之一，也是一个非常重要的基础类，你应该深刻的了解它
-    - 不要持久引用 ```stream("on", data)``` 上浮的 ```Buffer```
+  * ```Stream```类的抽象是 Node 的亮点之一，也是一个非常重要的基础类，你应该深刻的了解它
+  * 不要持久引用 ```stream('on', data)``` 上浮的 ```Buffer```
     
 * Net/Http Request
 
-    你应当给 ```request``` 加上超时控制
+你应当给 ```request``` 加上超时控制
 
 * Http Agent 
 
-    从 Node V0.5.3 开始，Node 提供了这种方式来支持 keep-alive/连接池
-    但注意它的文档说明
+从 Node V0.5.3 开始，Node 提供了这种方式来支持 keep-alive/连接池
+但注意它的文档说明
     
-    >If no pending HTTP requests are waiting on a socket to become free the socket is closed. 
+>If no pending HTTP requests are waiting on a socket to become free the socket is closed. 
     
     即它没有我们传统意义上的keep-avlie time的设置，比如当你在一个请求返回之后再申请下一个，   
     这时这个连接池是没有启用的.
