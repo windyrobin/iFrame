@@ -165,6 +165,11 @@
 * File System
 
     - 在读取文件时，可以的话，尽量传入适当的bufsize
+    - 谨慎使用同步操作函数组---除非你清楚明白这样做的后果
+    
+* Stream
+
+    - Stream 类的抽象是 Node 的亮点之一，也是一个非常重要的基础类，你应该深刻的了解它
     - 不要持久引用 ```stream("on", data)``` 上浮的 ```Buffer```
     
 * Net/Http Request
