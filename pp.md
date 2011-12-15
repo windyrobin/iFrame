@@ -205,9 +205,9 @@
     从 ```Node V0.5.3``` 开始，Node 提供了这种方式来支持 ```keep-alive``` 连接池
     但需要注意它的文档说明
 
-    ```node/lib/http.js```
-
     ```
+    // come from `node/lib/http.js`
+
     } else if (self.agent) {
       // If there is an agent we should default to Connection:keep-alive.
       self._last = false;
@@ -221,8 +221,47 @@
     
     >If no pending HTTP requests are waiting on a socket to become free the socket is closed. 
     
-    即它没有我们传统意义上的keep-alive time的设置，比如当你在一个请求返回之后再请求下一个，   
-    这时这个连接池是没有启用的.
+    ```
+    // come from `node/lib/http.js`
+
+    self.on('free', function(socket, host, port) {
+      var name = host + ':' + port;
+      if (self.requests[name] && self.requests[name].length) {
+        self.requests[name].shift().onSocket(socket);
+      } else {
+        // If there are no pending requests just destroy the
+        // socket and it will get removed from the pool. This
+        // gets us out of timeout issues and allows us to
+        // default to Connection:keep-alive.
+        socket.destroy();
+      }
+    });
+
+    // ...
+
+    Agent.prototype.addRequest = function(req, host, port) {
+      var name = host + ':' + port;
+      if (!this.sockets[name]) {
+        this.sockets[name] = [];
+      }
+      if (this.sockets[name].length < this.maxSockets) {
+        // If we are under maxSockets create a new one.
+        req.onSocket(this.createSocket(name, host, port));
+      } else {
+        // We are over limit so we'll add it to the queue.
+        if (!this.requests[name]) {
+          this.requests[name] = [];
+        }
+        this.requests[name].push(req);
+      }
+    };
+    ```
+
+    只有对同一 ```host + port``` 并发请求数大于 ```maxSockets``` 的时候，agent的socket连接池才会启用起来。
+
+    也就是说它没有我们传统意义上的keep-alive time的设置，比如当你在一个请求返回之后再请求下一个，这时这个连接池是没有启用的.
+
+    以下是测试代码，每次请求的socket端口号都在变化，代表请求socket并没有被复用.
     
     Server
 
