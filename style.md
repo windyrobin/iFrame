@@ -138,9 +138,8 @@
 
     ```
     var a = ['hello', 'world'];
-    var b = {
-      good: 'code',
-      'is generally': 'pretty',
+    var b = {"good": 'code'
+      , is generally: 'pretty'
     };
     ```
       
@@ -149,9 +148,10 @@
     ```
     var a = [
       'hello', 'world'
-    ];
-    var b = {"good": 'code'
-      , is generally: 'pretty'
+    ];    
+    var b = {
+      good: 'code',
+      'is generally': 'pretty',
     };
     ```
 
