@@ -107,25 +107,25 @@
     
 * 使用 WebGL 类型扩展: ```Int8Array```, ```Int16Array```, ```Float32Array``` ...
 
-    这些类型的数值运算、二进制运算非常快 （参见Node 自带的```benchamrk/array```）;
+  这些类型的数值运算、二进制运算非常快 （参见Node 自带的```benchamrk/array```）;
   
 ## Node JS
 
 * Event 
 
-Node 有两种Event: hard/soft,  hard event 是指文件、网络可读写这些物理上的event, 
-其他的用户设置的事件都是 soft event。
+  Node 有两种Event: hard/soft,  hard event 是指文件、网络可读写这些物理上的event, 
+  其他的用户设置的事件都是 soft event。
 
-当你通过 ```obj.on('eid', function(){})``` 来添加事件时，
-此 obj 内部会维护一个对应此 ```'eid'``` 的事件队列，所以，当你多次调用此函数时，会把相同的处理函数设置多次。
-（Node 为了避免这种情况，设置了一个上限提示出错，用来避免内存泄露）
+  当你通过 ```obj.on('eid', function(){})``` 来添加事件时，
+  此 obj 内部会维护一个对应此 ```'eid'``` 的事件队列，所以，当你多次调用此函数时，会把相同的处理函数设置多次。
+  （Node 为了避免这种情况，设置了一个上限提示出错，用来避免内存泄露）
 
-当程序调用 ```obj.emit('eid', data)``` ，不要被假象所迷惑，这会立即调用设置的回调函数，它根本不是异步的。
+  当程序调用 ```obj.emit('eid', data)``` ，不要被假象所迷惑，这会立即调用设置的回调函数，它根本不是异步的。
     
 * Timer
     
-  * 使用 ```process.nextTick``` 替代 ```setTimeout(fun, 0)```
-  * 可以的话，尽量 ```setTimeout(fun, timeout)``` 设置相同的超时值，timeout 值相同，node 会使用同一个定时器处理
+    * 使用 ```process.nextTick``` 替代 ```setTimeout(fun, 0)```
+    * 可以的话，尽量 ```setTimeout(fun, timeout)``` 设置相同的超时值，timeout 值相同，node 会使用同一个定时器处理
 
     ```
     // come from `node/lib/timers.js`
@@ -141,8 +141,8 @@ Node 有两种Event: hard/soft,  hard event 是指文件、网络可读写这些
     
 * Buffer 
 
-避免不必要的拷贝以及与 ```string``` 的相互转换  
-比如你可能这样写:
+    避免不必要的拷贝以及与 ```string``` 的相互转换  
+    比如你可能这样写:
     
     Wrong:
 
@@ -161,8 +161,8 @@ Node 有两种Event: hard/soft,  hard event 是指文件、网络可读写这些
     });
     ```
     
-但其实**很多时候**，仅仅**只有一个chunk**，完全可以避免多余的copy操作，  
-我们可以参看 Node 的源码实现：
+    但其实**很多时候**，仅仅**只有一个chunk**，完全可以避免多余的copy操作，  
+    我们可以参看 Node 的源码实现：
     
     Right:
 
@@ -198,12 +198,12 @@ Node 有两种Event: hard/soft,  hard event 是指文件、网络可读写这些
     
 * Net/Http Request
 
-你应当给 ```request``` 加上超时控制
+  你应当给 ```request``` 加上超时控制
 
 * Http Agent 
 
-从 Node V0.5.3 开始，Node 提供了这种方式来支持 keep-alive/连接池
-但注意它的文档说明
+  从 Node V0.5.3 开始，Node 提供了这种方式来支持 keep-alive/连接池
+  但注意它的文档说明
     
 >If no pending HTTP requests are waiting on a socket to become free the socket is closed. 
     
@@ -242,6 +242,6 @@ Node 有两种Event: hard/soft,  hard event 是指文件、网络可读写这些
     
 * Http Response
 
-    - 不要多次调用 ```res.write``` ,这会极大的影响性能，最好仅调用一次```res.end(buf/string)``` 方法
-    - 尽量在 ```res.writeHead``` 时设置 ```Content-Length```
+  * 不要多次调用 ```res.write``` ,这会极大的影响性能，最好仅调用一次```res.end(buf/string)``` 方法
+  * 尽量在 ```res.writeHead``` 时设置 ```Content-Length```
     
