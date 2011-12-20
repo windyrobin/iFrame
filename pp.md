@@ -114,7 +114,7 @@
 * Event 
 
     Node 有两种Event: hard/soft,  hard event 是指文件、网络可读写这些物理上的event,  
-    其他的用户设置的事件都是 soft event。当你通过 ```obj.on('eid', function(){})``` 来添加事件时，  
+    其他的用户设置的事件都是 soft event；当你通过 ```obj.on('eid', function(){})``` 来添加事件时，  
     此 obj 内部会维护一个对应此 ```'eid'```  的事件队列，所以，当你多次调用此函数时，  
     会把相同的处理函数设置多次。  
     (Node 为了避免这种情况，设置了一个上限提示出错，用来避免内存泄露)  
