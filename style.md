@@ -66,6 +66,7 @@
     * 类名和枚举类型：ClassNamesLikeThis, EnumNamesLikeThis, 
     * 类方法：methodNamesLikeThis 
     * 常量：SYMBOLIC_CONSTANTS_LIKE_THIS
+    * 事件名：name_action, somthing_done
 
     Right ：
   
@@ -154,7 +155,7 @@
       , is generally: 'pretty'
     };
     ```
-
+    Object 的key除非像例子中出现空格的情况，否则不推荐使用引号括起来 
 
 * 避免使用 “with” 与 “eval”
 
