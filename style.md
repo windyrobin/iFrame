@@ -222,21 +222,22 @@
       , net = require('net')
       , EventEmitter = require('events').EventEmitter;
     ```
-* 注释规范，采用 [Google 的js 规范](http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml#Comments)
     
-    Right :
+* 注释规范，采用 [Google 的js 规范](http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml#Comments)
 
-    ```
-    /\*\*
-     \* Queries a Baz for items.
-     \* @param {number} groupNum Subgroup id to query.
-     \* @param {string|number|null} term An itemName,
-     \*  or itemId, or null to search everything.
-     \*/
-    goog.Baz.prototype.query = function(groupNum, term) {
-      // ...
-    };
-    ```
+    Right :
+    
+    
+        /**
+         * Queries a Baz for items.
+         * @param {number} groupNum Subgroup id to query.
+         * @param {string|number|null} term An itemName,
+         *     or itemId, or null to search everything.
+         */
+        goog.Baz.prototype.query = function(groupNum, term) {
+          // ...
+        };
+    
     
     更多案例请参看以上链接
 
