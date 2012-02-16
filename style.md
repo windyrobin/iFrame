@@ -90,7 +90,20 @@
     function bankAccount() {
     }
     ```
+
+* 文件命名
+
+    单词之间使用 ‘_’ underscore 来 分割，如果你不想暴露某个文件给用户 ，
+    你也可以用‘_’ 来开头
+   
+    Right :
     
+    ```
+    child_process.js
+    string_decoder.js
+    _linklist.js
+    ```
+
 
 * 不使用 ```const``` 关键字
   虽然V8 和 Mozilla 都支持它，但它不是ECMA 标准，我们用以下方式定义常量：
@@ -209,5 +222,22 @@
       , net = require('net')
       , EventEmitter = require('events').EventEmitter;
     ```
+* 注释规范，采用 [Google 的js 规范](http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml#Comments)
+    
+    Right :
+
+    ```
+    /\*\*
+     \* Queries a Baz for items.
+     \* @param {number} groupNum Subgroup id to query.
+     \* @param {string|number|null} term An itemName,
+     \*  or itemId, or null to search everything.
+     \*/
+    goog.Baz.prototype.query = function(groupNum, term) {
+      // ...
+    };
+    ```
+    
+    更多案例请参看以上链接
 
 * 多参考、模仿 Node 源码的编程风格 ^_^
