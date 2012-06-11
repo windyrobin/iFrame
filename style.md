@@ -9,22 +9,20 @@
 
     Right：
 
-    ```
-      var string = 'Foo' + bar;
+    ```js
+    var string = 'Foo' + bar;
     ```
     Wrong:
   
+    ```js
+    var string = 'Foo'+bar;
     ```
-      var string = 'Foo'+bar;
-    ```
-
-
 
 * 使用string 时，用单引号替代双引号（写JSON 时除外）
   
     Right：
 
-    ```
+    ```js
     var foo = 'bar';
     
     var http = require('http');
@@ -32,18 +30,17 @@
     
     Wrong：
     
-    ```
+    ```js
     var foo = "bar";
     
     var http = require("http");
     ```
     
-
 *  大括号位置
   
     Right：
 
-    ```
+    ```js
     if (true) {
       console.log('winning');
     }
@@ -51,13 +48,12 @@
     
     Wrong：
     
-    ```
+    ```js
     if (true)
     {
       console.log('losing');
     }
     ```
-    
 
 * Camel 命名法
 
@@ -69,7 +65,7 @@
 
     Right ：
   
-    ```
+    ```js
     // var definition
     var adminUser = db.query('SELECT * FROM users ...');
 
@@ -84,8 +80,8 @@
 
     Wrong：
 
-    ```
-    var admin_user = db.query('SELECT * FROM users ...");
+    ```js
+    var admin_user = db.query('SELECT * FROM users ...');
     
     function bankAccount() {
     }
@@ -98,7 +94,7 @@
    
     Right :
     
-    ```
+    ```js
     child_process.js
     string_decoder.js
     _linklist.js
@@ -109,8 +105,8 @@
   虽然V8 和 Mozilla 都支持它，但它不是ECMA 标准，我们用以下方式定义常量：
     
     Right：
- 
-    ```
+
+    ```js
     var SECOND = 1 * 1000;
     function File() {
     }
@@ -125,7 +121,7 @@
 
     Right：
 
-    ```
+    ```js
     var a = 0;
     if (a === '') {
       console.log('winning');
@@ -134,7 +130,7 @@
     
     Wrong：
     
-    ```
+    ```js
     var a = 0;
     if (a == '') {
       console.log('losing');
@@ -149,7 +145,7 @@
   
     Right：
 
-    ```
+    ```js
     var a = ['hello', 'world'];
     var b = {
       good: 'code',
@@ -159,7 +155,7 @@
       
     Wrong:
     
-    ```
+    ```js
     var a = [
       'hello', 'world'
     ];
@@ -168,16 +164,16 @@
     };
     ```
 
-
 * 避免使用 “with” 与 “eval”
 
 * for-in 循环，仅在 object/hash/map 时使用，绝不要对Array 使用
 
 * 不要把Array 当做关联数组或Object 使用,即你不应该用非数字作为Array 的索引
         (Phper 尤其注意这点)  
+
     Wrong :
   
-    ```
+    ```js
     var a = []; // use '{}' instead
     a['hello'] = 'shit';
     a['foo'] = 'bar';
@@ -185,19 +181,19 @@
 
 * Node 的异步回调函数的第一个参数应该是错误指示
 
-    ```
+    ```js
     function cb(err, data , ...) {...}
     ```
     
 * 类继承写法，尽管有各种方式来实现继承，但最为推荐的是Node 的标准写法
-  
-    ```
+
+    ```js
     function Socket(options) {
-      ...
+      // ...
       stream.Stream.call(this);
-      ...
+      // ...
     }
-  
+    
     util.inherits(Socket, stream.Stream);
     ```
 
@@ -206,8 +202,8 @@
 * 变量声明时，应该每行声明一个，不应该都写在一行（尽管这被JSLint 所推荐）。
 
     Right：
-    
-    ```
+
+    ```js
     var assert = require('assert');
     var fork = require('child_process').fork;
     var net = require('net');
@@ -215,8 +211,8 @@
     ```
     
     Wrong：( Node 源代码已经将此方式全部修正)
-    
-    ```
+
+    ```js
     var assert = require('assert')
       , fork = require('child_process').fork
       , net = require('net')
@@ -227,17 +223,17 @@
 
     Right :
     
-    
-        /**
-         * Queries a Baz for items.
-         * @param {number} groupNum Subgroup id to query.
-         * @param {string|number|null} term An itemName,
-         *     or itemId, or null to search everything.
-         */
-        goog.Baz.prototype.query = function(groupNum, term) {
-          // ...
-        };
-    
+    ```js
+    /**
+     * Queries a Baz for items.
+     * @param {number} groupNum Subgroup id to query.
+     * @param {string|number|null} term An itemName,
+     *     or itemId, or null to search everything.
+     */
+    goog.Baz.prototype.query = function (groupNum, term) {
+      // ...
+    };
+    ```
     
     更多案例请参看以上链接
 
