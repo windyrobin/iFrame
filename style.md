@@ -1,6 +1,6 @@
 # Node 编码规范
 
-* 缩进 ，2 个 space，tab要转换成2 space. (入乡随俗，这是Node 源码及module 采用的标准)   
+* 缩进 ，4 个 space，tab要转换成4 space. (入乡随俗，这是Node 源码及module 采用的标准)   
     [Eclipse设置](http://ww3.sinaimg.cn/large/6cfc7910jw1dnf44jzellj.jpg)
 
 * 永远用 var 声明变量，不加 var 时，会污染顶层上下文
