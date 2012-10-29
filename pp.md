@@ -13,7 +13,7 @@
     
     Wrong: 
 
-    ```
+    ```js
     for (var i = 0; i < arr.length; i++) {
       // ...    
     }
@@ -23,7 +23,7 @@
     
     Right:
 
-    ```
+    ```js
     var len = arr.length;
     for (var i = 0; i < len; i++) {
       // ...
@@ -40,7 +40,7 @@
     
     Wrong:
     
-    ```
+    ```js
     var a = {
       b: {
         c: 'd'
@@ -56,7 +56,7 @@
     
     Right:
 
-    ```
+    ```js
     var o = a.b.c;
     for (;;) {
       if (o) {
@@ -83,7 +83,7 @@
     
     Wrong:
     
-    ```
+    ```js
     function tfn() {
       try {
         @#dsC23
@@ -97,7 +97,7 @@
 
     Right:
     
-    ```
+    ```js
     try {
       tfn();
     } catch (e) {
@@ -128,7 +128,7 @@
     * 可以的话，尽量 ```setTimeout(fun, timeout)``` 设置相同的超时值，timeout 值相同  
       时 Node 会使用同一个定时器处理
 
-    ```
+    ```js
     // code from `node/lib/timers.js`
 
     // IDLE TIMEOUTS
@@ -147,7 +147,7 @@
     
     Wrong:
 
-    ```
+    ```js
     var chunks = [], nread = 0;
     stream.on('data', function (chunk) {
       chunks.push(chunk);
@@ -167,7 +167,7 @@
     
     Right: (node >= 0.8 直接可以使用 [Buffer.concat](http://nodejs.org/docs/latest/api/buffer.html#buffer_class_method_buffer_concat_list_totallength))
 
-    ```
+    ```js
     readStream.on('end', function () {
       // copy all the buffers into one
       var buf;
@@ -205,7 +205,7 @@
 
     从 ```Node V0.5.3``` 开始，Node 提供了这种方式来支持 ```keep-alive``` 连接池
 
-    ```
+    ```js
     // code from `node/lib/http.js`
 
     } else if (self.agent) {
@@ -225,7 +225,7 @@
     
     如果当前有pending 的request ，此时空闲状态的socket 会立即重用，如果没有，就会立即关闭：
     
-    ```
+    ```js
     // code from `node/lib/http.js`
 
     self.on('free', function(socket, host, port) {
@@ -268,7 +268,7 @@
     
     Server
 
-    ```
+    ```js
     var http = require('http');
     http.createServer(function (req, res) {
       // remotePort change, keep-alive not success.
@@ -279,7 +279,7 @@
 
     Client
 
-    ```
+    ```js
     var http = require('http');
 
     var count = 10;
