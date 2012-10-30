@@ -1,9 +1,9 @@
 # Node 编码规范
 
-* 缩进 ，2 个 space，tab要转换成2 space. (入乡随俗，这是Node 源码及module 采用的标准)   
+* 缩进，2 个 space，tab要转换成 `2 space`. (入乡随俗，这是Node 源码及module 采用的标准)
     [Eclipse设置](http://ww3.sinaimg.cn/large/6cfc7910jw1dnf44jzellj.jpg)
 
-* 永远用 var 声明变量，不加 var 时，会污染顶层上下文
+* 永远用 `var` 声明变量，不加 `var` 时，会污染顶层上下文
 
 * 操作符与操作算子之间要有空格
 
@@ -18,7 +18,7 @@
     var string = 'Foo'+bar;
     ```
 
-* 使用string 时，用单引号替代双引号（写JSON 时除外）
+* 使用`string` 时，用单引号替代双引号（写JSON 时除外）
   
     Right：
 
@@ -70,7 +70,7 @@
     var adminUser = db.query('SELECT * FROM users ...');
 
     // function definition
-    function run(){
+    function run() {
     }
 
     // Class definition
@@ -117,7 +117,7 @@
   当你遇到这些符号比较时 ：``` 0 undefined null false true ```
   
     你应该小心谨慎
-    比如　``` ' \t\r\n' == 0 ```　比较结果是true
+    比如　`' \t\r\n' == 0`　比较结果是 `true`
 
     Right：
 
@@ -137,9 +137,9 @@
     }
     ```
     
-* 使用字面表达式，用 '{}' ,'[]' 代替 ``` new Array ``` ，```new Object```
+* 使用字面表达式，用 '{}' ,'[]' 代替 `new Array` ，`new Object`
 
-    不要使用 ```string```，```bool```，```number``` 的对象类型，即不要调用 ```new String``` ，```new Boolean``` ，```new Number``` 
+    不要使用 `string`，`bool`，`number` 的对象类型，即不要调用 `new String` ，`new Boolean` ，`new Number`
 
 * Object ，Array 创建，当有多个元素时，注意分行排列时逗号的位置
   
@@ -179,6 +179,14 @@
     a['foo'] = 'bar';
     ```
 
+    Right:
+
+    ```js
+    var a = {};
+    a.hello = 'shit';
+    a.foo = 'bar';
+    ```
+
 * Node 的异步回调函数的第一个参数应该是错误指示
 
     ```js
@@ -197,7 +205,7 @@
     util.inherits(Socket, stream.Stream);
     ```
 
-* 如果你在模块中 exports 一个类，对于此类的私有成员变量，建议加上 "_"  前缀以示区分
+* 如果你在模块中 `exports` 一个类，对于此类的私有成员变量，建议加上 "_"  前缀以示区分
 
 * 变量声明时，应该每行声明一个，不应该都写在一行（尽管这被JSLint 所推荐）。
 
@@ -238,3 +246,5 @@
     更多案例请参看以上链接
 
 * 多参考、模仿 Node 源码的编程风格 ^_^
+* [Javascript编程风格](http://www.ruanyifeng.com/blog/2012/04/javascript_programming_style.html)
+* [Google JavaScript代码风格指南](http://chajn.org/jsguide/javascriptguide.html)

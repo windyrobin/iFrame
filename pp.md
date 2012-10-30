@@ -5,33 +5,33 @@
 * 遍历效率比较
 
     - forEach 很慢
-    - for(var in in obj) 较慢
-    - for(var i = 0; i < len; i++) 最快
+    - for (var in in obj) 较慢
+    - for (var i = 0; i < len; i++) 最快
     - Array 的遍历比 Object 要快的多
     
 * 避免重复计算
     
     Wrong: 
 
-    ```
-    for(var i = 0; i < arr.length; i++) {
+    ```js
+    for (var i = 0; i < arr.length; i++) {
       // ...    
     }
     ```
 
-    在arr 长度较大时，应该引入临时量
+    在 arr 长度较大时，应该引入临时量 (V8下此优化无效)
     
     Right:
 
-    ```
+    ```js
     var len = arr.length;
-    for(var i = 0; i < len; i++) {
+    for (var i = 0; i < len; i++) {
       // ...
     }
     
     // or
     
-    for(var i = 0, l = arr.length; i < l; i++) {
+    for (var i = 0, l = arr.length; i < l; i++) {
       // ...
     }
     ```
@@ -40,13 +40,13 @@
     
     Wrong:
     
-    ```
+    ```js
     var a = {
       b: {
         c: 'd'
       }
     };
-    for(;;) {
+    for (;;) {
       if (a.b.c) {
         // ...
       }
@@ -56,9 +56,9 @@
     
     Right:
 
-    ```
+    ```js
     var o = a.b.c;
-    for(;;) {
+    for (;;) {
       if (o) {
         // ...
       }
@@ -83,13 +83,13 @@
     
     Wrong:
     
-    ```
+    ```js
     function tfn() {
-      try{
+      try {
         @#dsC23
         @##sd
         @#$d
-      } catch(e) {
+      } catch (e) {
         // ...
       }
     }
@@ -97,10 +97,10 @@
 
     Right:
     
-    ```
+    ```js
     try {
       tfn();
-    } catch(e) {
+    } catch (e) {
       // ...
     }
     ```
@@ -124,11 +124,11 @@
     
 * Timer
     
-    * 使用 ```process.nextTick``` 替代 ```setTimeout(fun, 0)```
+    * 使用 ```process.nextTick(fun)``` 替代 ```setTimeout(fun, 0)```
     * 可以的话，尽量 ```setTimeout(fun, timeout)``` 设置相同的超时值，timeout 值相同  
       时 Node 会使用同一个定时器处理
 
-    ```
+    ```js
     // code from `node/lib/timers.js`
 
     // IDLE TIMEOUTS
@@ -147,16 +147,16 @@
     
     Wrong:
 
-    ```
+    ```js
     var chunks = [], nread = 0;
-    stream.on('data', function(chunk) {
+    stream.on('data', function (chunk) {
       chunks.push(chunk);
       nread += chunk.length;
     });
 
-    stream.on('end', function() {
+    stream.on('end', function () {
       var buf = new Buffer(nread);
-      for(var i = 0, l = chunks.length; i < l; i++) {
+      for (var i = 0, l = chunks.length; i < l; i++) {
         chunks[i].copy(buf, ....);
       }
     });
@@ -165,10 +165,10 @@
     但其实**很多时候**，仅仅**只有一个chunk**，完全可以避免多余的copy操作，  
     我们可以参看 Node 的源码实现：
     
-    Right:
+    Right: (node >= 0.8 直接可以使用 [Buffer.concat](http://nodejs.org/docs/latest/api/buffer.html#buffer_class_method_buffer_concat_list_totallength))
 
-    ```
-    readStream.on('end', function() {
+    ```js
+    readStream.on('end', function () {
       // copy all the buffers into one
       var buf;
       switch (buffers.length) {
@@ -176,7 +176,7 @@
         case 1: buf = buffers[0]; break;
         default: // concat together
           buffer = new Buffer(nread);
-          for(var i = 0, p = 0, l = buffers.length; i < l; i++) {
+          for (var i = 0, p = 0, l = buffers.length; i < l; i++) {
             var b = buffers[i];
             var size = b.length;
             b.copy(buf, p, 0 size);
@@ -201,11 +201,11 @@
 
     你应当给 ```socket/request``` 加上超时控制
 
-* Http Agent 
+* Http Agent
 
     从 ```Node V0.5.3``` 开始，Node 提供了这种方式来支持 ```keep-alive``` 连接池
 
-    ```
+    ```js
     // code from `node/lib/http.js`
 
     } else if (self.agent) {
@@ -225,7 +225,7 @@
     
     如果当前有pending 的request ，此时空闲状态的socket 会立即重用，如果没有，就会立即关闭：
     
-    ```
+    ```js
     // code from `node/lib/http.js`
 
     self.on('free', function(socket, host, port) {
@@ -268,9 +268,9 @@
     
     Server
 
-    ```
+    ```js
     var http = require('http');
-    http.createServer(function(req, res) {
+    http.createServer(function (req, res) {
       // remotePort change, keep-alive not success.
       console.log('%d port', req.socket.remotePort);
       res.end('hello');
@@ -279,7 +279,7 @@
 
     Client
 
-    ```
+    ```js
     var http = require('http');
 
     var count = 10;
@@ -293,11 +293,11 @@
       headers: { Connection: 'keep-alive' }
     };
     function looptest() {
-      var req = http.request(options, function(res) {
-        res.on('end', function() {
+      var req = http.request(options, function (res) {
+        res.on('end', function () {
           console.log('count : %d', count);
           if (--count > 0) {
-            process.nextTick(function() {
+            process.nextTick(function () {
               looptest();
             }); 
           }   
